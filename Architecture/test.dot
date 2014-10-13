@@ -5,6 +5,11 @@ subgraph cluster_Communication{
 comm [label = "Communication with ODB"]; 
 }
 
+subgraph cluster_InterCoils{
+inter [label = "Interface Coils-Attitude Control"];
+}
+
+
 subgraph cluster_Orbitographie{
 
 orbito [label = "Orbitographie"];
@@ -79,10 +84,6 @@ orbito -> att_det;
 
 att_det -> det;
 
-att_con ->mag_coils;
-
-det -> mag_coils;
-
 IGRF -> att_con;
 
 orbito -> IGRF;
@@ -104,6 +105,13 @@ rtc -> orbito;
 comm -> rtc;
 
 orbito -> albedo;
+
+att_con -> inter;
+
+det -> inter; 
+
+inter -> mag_coils;
+
 
 }
 
