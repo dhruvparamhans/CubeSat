@@ -1,0 +1,4 @@
+This folder contains basic classes written in Python. The eventual code will be written in C++. The current pythin files contain only the very basic functionality of the classes. 
+
+The aim is to break the code into smaller independent parts while we confirm which algorithms will be used for the ADCS. 
+
