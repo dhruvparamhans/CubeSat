@@ -1,0 +1,110 @@
+digraph class_structure{
+
+subgraph cluster_Communication{
+
+comm [label = "Communication with ODB"]; 
+}
+
+subgraph cluster_Orbitographie{
+
+orbito [label = "Orbitographie"];
+}
+
+subgraph cluster_RTC{
+
+rtc [label = "RTC"];
+}
+
+
+subgraph cluster_softmana{
+
+soft_man [label = "Software Management"];
+}
+
+
+subgraph cluster_GPS{
+GPS;
+}
+
+subgraph cluster_data{
+label = "Data";
+IGRF;
+albedo;
+}
+
+subgraph cluster_0{
+label= "Sensors";
+
+gyr_sensor; mag_sensor; sun_sensor; 
+}
+
+subgraph cluster_1{
+label = "Calculations 1";
+
+gyr_vector; mag_vector; sun_vector;
+}
+
+subgraph cluster_2{
+att_det [label ="Attitude Determination"];
+}
+
+subgraph cluster_3{
+det [label = "Detumbling"];
+att_con [label = "Attitude Control"];
+}
+
+subgraph cluster_4{
+
+mag_coils [label = "Magnetic Coils"];
+}
+
+
+sun_sensor -> sun_vector;
+
+GPS -> orbito;
+
+albedo -> sun_vector; 
+
+gyr_sensor ->gyr_vector;
+
+mag_sensor -> mag_vector;
+
+mag_vector ->att_det; 
+
+sun_vector -> att_det;
+
+gyr_vector -> att_det
+
+orbito -> att_det;
+
+att_det -> det;
+
+att_con ->mag_coils;
+
+det -> mag_coils;
+
+IGRF -> att_con;
+
+orbito -> IGRF;
+
+comm -> GPS;
+
+comm -> att_det;
+
+att_det -> att_con;
+
+comm -> soft_man;
+
+soft_man -> att_det;
+
+soft_man -> att_con;
+
+rtc -> orbito;
+
+comm -> rtc;
+
+}
+
+
+
+
