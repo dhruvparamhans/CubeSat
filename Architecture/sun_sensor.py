@@ -5,6 +5,7 @@ class sun_sensor:
     ##Functions:
     ##1. Initialization of the class
     ##2. get data
+    ##Serial Port initialization
     def __init__(self):
         self.state = False;
         self.data_raw = [] ## stores the raw data, 5 faces=5 elements
@@ -24,12 +25,15 @@ class sun_sensor:
 class albedo:
     ##This class retrieves the albedo data from the on-board albedo map using
     ##the position data retrieved from the GPS.
-    def __init__(self,position):
+    def __init__(self, file, shadow):
         self.data_albedo = []
         self.data_pos = position
         self.shadow = False
-    def get_alb(self):
+    def get_alb(self, position, time):
         ##insert code for calculating albedo at a given position
+        position=orbitography.get_position()
+        inShadow=shadow.inShadow(position,time)
+
         if self.shadow == False:
             return self.data_albedo
         else:
@@ -42,6 +46,24 @@ class position:
     def __init__(self):
         self.data_pos = []
 
+class orbitography:
+    ##2 Positions 2 Times
+    ##Harcoded Orbit (characteristic of the orbit exig?)
+    def __init__self(self):
+        self.pos_calc = []
+        ##Orbit Parameters
+        ##Orbit last calculated
+        ##Expected orbit characteristics shall be hard-coded here
+    def set_orbit(self,inclinaison,altitude,LTDN):
+        ##Reset orbit using data from the ODB
+        ##LTDN: Local time descending node
+        ##Capable of resetting the orbital paramters.
+
+    ##def get_position(time):
+      ##  return
+
+
+
 class sun_vector:
     ##From the raw sun sensor data, calculates the vector from the satellite
     ##to the sun. Also tells if satellite is in earth shadow or not
@@ -52,6 +74,11 @@ class sun_vector:
         self.albedo = albedo
         self.data_sun = []
     def calc_sun_vector(self):
+        position
+
+        inShadow=shadow.inShadow()
+        albedo_value=albedo.get_albedo()
+        sun_sensor_value=sun_sensor.get_sun_sensor()
         if self.albedo.get_alb == []:
             return []
         else:

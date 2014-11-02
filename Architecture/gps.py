@@ -5,7 +5,7 @@ class GPS:
         self.data_latitude = 0 ##Latitude
         self.data_longitude = 0 ##Longitude
         self.data_altitude = 0 ##Altitude
-    def get_position_data(self):
+    def gps_reading(self):
         ##Insert code for getting data from the GPS
         return 0
 
