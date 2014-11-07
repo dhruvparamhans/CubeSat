@@ -50,12 +50,12 @@ gyr_vector; mag_vector; sun_vector;
 }
 
 subgraph cluster_2{
-att_det [label ="Attitude Determination"];
+att_det [label ="Attitude Determination (Non-linear observer)"];
 }
 
 subgraph cluster_3{
-det [label = "Detumbling"];
-att_con [label = "Attitude Control"];
+det [label = "Detumbling (Bdot)"];
+att_con [label = "Attitude Control (LQR)"];
 }
 
 subgraph cluster_4{
@@ -78,7 +78,7 @@ mag_vector ->att_det;
 
 sun_vector -> att_det;
 
-gyr_vector -> att_det
+gyr_vector -> att_det [label = "Gyro Bias"];
 
 orbito -> att_det;
 
@@ -105,6 +105,8 @@ rtc -> orbito;
 comm -> rtc;
 
 orbito -> albedo;
+
+IGRF-> det
 
 att_con -> inter;
 

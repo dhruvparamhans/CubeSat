@@ -3,7 +3,7 @@ class sun_sensor:
         self.sun_data_raw = []
     def get_data(self):
         ##Gets data from each of the 5 sun sensors on board
-        return self.sun
+        return self.sun_data_raw
 
 class shadow:
     def __init__(self):
@@ -15,7 +15,7 @@ class shadow:
 class albedo:
     def __init__(self):
         self.alb = 0;
-    def getalbedo(self):
+    def getalbedo(self,position,shadow):
         ##Insert code to calculate albedo given the time, position and shadow
         return self.alb
 
@@ -30,7 +30,7 @@ class sun_vector:
             return []
         else:
             sensor_data = sun_sensor.get_data()
-            albedo_value = albedo.getalbedo()
+            albedo_value = albedo.getalbedo(position,in_shadow)
             ##Insert code to calculate sun vector
             return sun_vect
 

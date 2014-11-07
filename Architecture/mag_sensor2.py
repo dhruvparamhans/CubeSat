@@ -14,5 +14,12 @@ class mag_vector:
         ##Insert code to calculate the magnetic field from raw data
         return self.B_vector
 
+class igrf:
+    def __init__(self):
+        self.field = []
+    def get_magfield_terre(self,position):
+        ##Insert code to get terrestrial magnetic field at a given position
+        return self.field
+
 
 
