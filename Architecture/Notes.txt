@@ -1,0 +1,33 @@
+Functions of each of the classes: 
+
+1. Sun_sensor: Gets data from each of the five sun sensors placed on the 5 faces of the satellite. Tasks to be written for sun_sensor: Power up, Power Down, Read Data, 
+
+2. Albedo: Calculates albedo from the on-board Albedo map. Requires position. No sensor required
+
+3. Sun_vector: Given the sun_sensor and albedo readings, calculate the sun_vector. No sun_vector if satellite in shadow. Depends on albedo and position. 
+
+4. Position: Will be given either by the GPS or by orbitography 
+
+5. Orbitography: With hard-coded orbits, we can calculate the position at any time t given. However, the orbit has to be reset after the last GPS reading. After the last GPS readings, the orbital parameters will be reset and we will continue with the integration of Euler's equations. 
+
+Thus position will be something that will be provided by orbitography. Orbitography will receive the time and GPS data from the ODB. The time data will be continuously fed to the orbitography while the availability of the GPS data is solely dependent on the ODB. 
+
+6. Mag_sensor: Same as sun_sensor except an extra reading for the temperature 
+
+7. Mag_vector: After temperature calibration, returns the magnetic field vector 
+
+What does mag_sensor do? Gets the data from the magnetometers and the thermometer 
+
+What does mag_vector do? Calculates the magnetic field after correcting for the temperature
+ 
+ 
+ One big class for tne sensors with data types for the 
+ 
+ 
+1. Use LQR for Attitude Control, USe Bdot for detumbling 
+
+
+2. For attitude determination, use Non-linear observer+GyroBias 
+
+Add links between gyr vector and attktude determination 
+
