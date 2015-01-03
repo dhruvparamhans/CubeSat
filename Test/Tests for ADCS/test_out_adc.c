@@ -5,8 +5,19 @@
 
 void initialiserUSART(){
 
+	/* Steps to take for using USART
+	 * 1. Enable the USART peripheral clock
+	 * 2. Enable the corresponding GPIO clock
+	 * 3. Enable the Alternate function for the GPIO
+	 * 4. Configure the GPIO for USART use
+	 * 5. Initialize the GPIO structure using GPIO_Init()
+	 * 6. Configure Baud rate etc for USART.
+	 */
 	GPIO_InitTypeDef GPIO_USART;
+	USART_InitTypeDef USART_InitStruct;
 
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);
 
@@ -23,8 +34,6 @@ void initialiserUSART(){
 	GPIO_USART.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_Init(GPIOA, &GPIO_USART);
 
-	USART_InitTypeDef USART_InitStruct;
-
 	USART_InitStruct.USART_BaudRate = 9600;
 	USART_InitStruct.USART_WordLength = USART_WordLength_8b;
 	USART_InitStruct.USART_StopBits = USART_StopBits_1;
@@ -34,7 +43,7 @@ void initialiserUSART(){
 	USART_Init(USART1, &USART_InitStruct);
 
 	USART_Cmd(USART1, ENABLE);
-	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+	//USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
 }
 
 void envoyerDataDecimalUSART(uint8_t data){
@@ -94,8 +103,19 @@ char *USART_InttoASC(int16_t data, char *p){
 }
 void config_ADC(){
 
+	/* Steps to take for using ADC
+	 * 1. Enable RCC_APB2 Clock
+	 * 2. Enable the clock for ADC GPIOs. For our case, we will enable the GPIOB and GPIOC Clocks
+	 * 3. Configure the pins to be used in Analog mode
+	 * 4. Initialize the GPIO structure using GPIO_Init()
+	 */
+
 	GPIO_InitTypeDef GPIO_ADC;
 	ADC_InitTypeDef ADC_InitStruct;
+
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
 
 	GPIO_ADC.GPIO_Pin = pin0|pin1|pin5;
 	GPIO_ADC.GPIO_Mode = GPIO_Mode_AN;
@@ -116,7 +136,6 @@ void config_ADC(){
 
 	ADC_Cmd(ADC1, ENABLE);
 
-	//while (ADC_GetFlagStatus(ADC1, ADC_FLAG_STRT) == RESET);
 }
 
 void getValue_adc(uint8_t channel_number){
@@ -132,12 +151,6 @@ void getValue_adc(uint8_t channel_number){
 	USART_Putstr("\r");
 }
 void test2(){
-
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 	SystemInit();
 	initialiserUSART();
 	USART_Putstr("Test for ADC Conversion \n");
