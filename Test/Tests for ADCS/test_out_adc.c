@@ -5,8 +5,6 @@
 void initialiserUSART(){
 
 	GPIO_InitTypeDef GPIO_USART;
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);
@@ -97,10 +95,6 @@ void config_ADC(){
 	GPIO_InitTypeDef GPIO_ADC;
 	ADC_InitTypeDef ADC_InitStruct;
 
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
-
 	GPIO_ADC.GPIO_Pin = pin0|pin1|pin5;
 	GPIO_ADC.GPIO_Mode = GPIO_Mode_AN;
 	GPIO_ADC.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -137,6 +131,12 @@ void getValue_adc(uint8_t channel_number){
 }
 void test2(){
 
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+	SystemInit();
 	initialiserUSART();
 	USART_Putstr("Test for ADC Conversion \n");
 
