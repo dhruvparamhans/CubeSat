@@ -1,4 +1,5 @@
 #include "test_out_adc.h"
+#include <stdio.h>
 
 //ADC Pins = PC0, PC1, PC5, PB0, PB1
 
@@ -36,12 +37,13 @@ void initialiserUSART(){
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
 }
 
-/*void envoyerDataDecimalUSART(uint8_t data){
+void envoyerDataDecimalUSART(uint8_t data){
 	char buf[3];
 	sprintf(buf, "%u", data);
-	for (int i = 0; i<3; i++)
-		envoyerDataDecimalUSART1(buf[i]);
-}*/
+	int i;
+	for (i=0; i<3; i++)
+		 envoyerDataDecimalUSART(buf[i]);
+}
 
 void USART_Putstr(char *str){
 
@@ -114,7 +116,7 @@ void config_ADC(){
 
 	ADC_Cmd(ADC1, ENABLE);
 
-	while (ADC_GetFlagStatus(ADC1, ADC_FLAG_STRT) == RESET);
+	//while (ADC_GetFlagStatus(ADC1, ADC_FLAG_STRT) == RESET);
 }
 
 void getValue_adc(uint8_t channel_number){
