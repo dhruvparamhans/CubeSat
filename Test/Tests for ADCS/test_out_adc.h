@@ -5,11 +5,11 @@
 
 void initialiserUSART(void);  // Configuring the USART structure
 
-//void envoyerDataDecimalUSART(uint8_t data); // Sending decimal data to USART
+void envoyerDataDecimalUSART(uint8_t data); // Sending decimal data to USART
 
 void USART_Putstr(char *str); // Sending a string of characters to USART
 
-char *USART_InttoASC(int16_t data, char *p); //Converts an integer into a string of ASCII Characters
+char *USART_InttoASC(int8_t data, char *p); //Converts an integer into a string of ASCII Characters
 
 void config_ADC(void); // Configuring the ADC Structure
 

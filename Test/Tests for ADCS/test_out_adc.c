@@ -69,8 +69,8 @@ void USART_Putstr(char *str){
 	}
 }
 
-char *USART_InttoASC(int16_t data, char *p){
-	int16_t t1, t2;
+char *USART_InttoASC(int8_t data, char *p){
+	int8_t t1, t2;
 	char h[10];
 
 	t1 = t2 = 0;
@@ -81,8 +81,8 @@ char *USART_InttoASC(int16_t data, char *p){
 		data = -data;
 	}
 
-	if (data<1000)
-		p[t2++] = '0';
+	//if (data<1000)
+		//p[t2++] = '0';
 	if (data<100)
 		p[t2++] = '0';
 	if (data<10)
@@ -127,7 +127,7 @@ void config_ADC(){
 	GPIO_ADC.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOB, &GPIO_ADC);
 
-	ADC_InitStruct.ADC_Resolution = ADC_Resolution_12b;
+	ADC_InitStruct.ADC_Resolution = ADC_Resolution_8b;
 	ADC_InitStruct.ADC_ContinuousConvMode = ENABLE;
 	ADC_InitStruct.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
 	ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;
@@ -139,14 +139,14 @@ void config_ADC(){
 }
 
 void getValue_adc(uint8_t channel_number){
-	uint16_t adc_val;
+	uint8_t adc_val;
 	char str[10];
 	ADC_RegularChannelConfig(ADC1, channel_number, 1, ADC_SampleTime_15Cycles);
 	ADC_SoftwareStartConv(ADC1);
 	while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET) {;}
 	adc_val = ADC_GetConversionValue(ADC1);
 
-	USART_InttoASC((int16_t)adc_val, str);
+	USART_InttoASC((int8_t)adc_val, str);
 	USART_Putstr(str);
 	USART_Putstr("\r");
 }
