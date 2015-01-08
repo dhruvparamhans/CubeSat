@@ -5,6 +5,8 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_adc.h"
 #include "stm32f4xx_usart.h"
+#include "stm32f4xx_tim.h"
+#include "misc.h"
 
 
 #define pin0	GPIO_Pin_0

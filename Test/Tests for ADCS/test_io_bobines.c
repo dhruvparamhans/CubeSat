@@ -33,10 +33,12 @@ void blink(void){
 	GPIO_Led.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &GPIO_Led);
 
+
 	while (1)
 	{
 		//Activer commande des bobines
 		set(GPIOB, pin15);
+
 
 		//Faire R1 = 0; F1 = 1
 		set(GPIOB, pin14);
@@ -49,6 +51,7 @@ void blink(void){
 		Delay(1194303);
 		//Faire R1 = 0; F1 = 0
 		reset(GPIOB, pin13);
+
 
 		//Faire R2 = 0; F2 = 1
 		set(GPIOB, pin12);
@@ -75,7 +78,7 @@ void blink(void){
 		reset(GPIOA, pin5);
 
 		//Désativer commande des bobines
-		reset(GPIOB, pin15);
+		//reset(GPIOB, pin15);
 
 		Delay(10194303);
 	}
