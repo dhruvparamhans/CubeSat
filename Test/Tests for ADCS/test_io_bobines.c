@@ -15,7 +15,10 @@ void reset(GPIO_TypeDef* GPIO_x, uint16_t pin_number){
 	GPIO_ResetBits(GPIO_x, pin_number);
 }
 
-void blink(void){
+void configLEDS(void){
+
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 
 	//Configuring the Pins PB10, PB11, PB12, PB13, PB14
 	GPIO_Led.GPIO_Pin = pin10|pin11|pin12|pin13|pin14|pin15;
@@ -32,32 +35,34 @@ void blink(void){
 	GPIO_Led.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_Led.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &GPIO_Led);
+}
 
+void blink(void){
 
 	while (1)
 	{
 		//Activer commande des bobines
 		set(GPIOB, pin15);
 
-
 		//Faire R1 = 0; F1 = 1
-		set(GPIOB, pin14);
-		//Attendre
-		Delay(1194303);
-		//Faire R1 = 1; F1 = 0
-		reset(GPIOB, pin14);
 		set(GPIOB, pin13);
 		//Attendre
 		Delay(1194303);
-		//Faire R1 = 0; F1 = 0
+		//Faire R1 = 1; F1 = 1
 		reset(GPIOB, pin13);
+		set(GPIOB, pin14);
+		//Attendre
+		Delay(1194303);
+		//Faire R1 = 0; F1 = 0
+		reset(GPIOB, pin14);
+
 
 
 		//Faire R2 = 0; F2 = 1
 		set(GPIOB, pin12);
 		//Attendre
 		Delay(1194303);
-		//Faire R2 = 1; F2 = 0
+		//Faire R2 = 1; F2 = 1
 		reset(GPIOB, pin12);
 		set(GPIOB, pin11);
 		//Attendre
@@ -77,18 +82,12 @@ void blink(void){
 		//Faire R3 = 0; F3 = 0
 		reset(GPIOA, pin5);
 
-		//Désativer commande des bobines
-		//reset(GPIOB, pin15);
-
-		Delay(10194303);
+		reset(GPIOB, pin15);
 	}
 }
 
 void test1(void){
-
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 	SystemInit();
-
+	configLEDS();
 	blink();
 }

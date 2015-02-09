@@ -1,5 +1,6 @@
 #include "test_out_adc.h"
 #include "test_io_bobines.h"
+#include "common.h"
 
 #define MAX_STRLEN 12 
 volatile char received_string[MAX_STRLEN+1];
@@ -75,8 +76,8 @@ void transmit_USART(volatile char *s){
 }
 
 //Converts a given integer into a character array 
-char *USART_InttoASC(int8_t data, char *p){
-	int8_t t1, t2;
+char *USART_InttoASC(uint8_t data, char *p){
+	uint8_t t1, t2;
 	char h[10];
 
 	t1 = t2 = 0;
@@ -87,8 +88,6 @@ char *USART_InttoASC(int8_t data, char *p){
 		data = -data;
 	}
 
-	//if (data<1000)
-		//p[t2++] = '0';
 	if (data<100)
 		p[t2++] = '0';
 	if (data<10)
@@ -113,12 +112,10 @@ char *USART_InttoASC(int8_t data, char *p){
 
 void USART_IRQHandler(void){
 
-	//Check if the USART1 receive interrupt flag was set
-	if ( USART_GetITStatus(USART1, USART_IT_RXNE)){
-		static uint8_t cnt = 0; //To determine string length
-		char t = USART1->DR; // Character from the USART1 Data register is stored here
 
-		//Check if the received character is not the LF Character (indicating end of string) or if the maximum string length has been reached
+	if ( USART_GetITStatus(USART1, USART_IT_RXNE)){
+		static uint8_t cnt = 0;
+		char t = USART1->DR; // Character from the USART1 Data register is stored here
 
 		if ((t != '\n') && (cnt < MAX_STRLEN)){
 			received_string[cnt] = t;
@@ -130,7 +127,6 @@ void USART_IRQHandler(void){
 		}
 	}
 }
-
 
 //For configuring the ADC 
 void config_ADC(){
@@ -170,8 +166,8 @@ void config_ADC(){
 
 }
 
-int16_t getValue_adc(uint8_t channel_number){
-	int16_t adc_val;
+uint16_t getValue_adc(uint8_t channel_number){
+	uint16_t adc_val;
 	ADC_RegularChannelConfig(ADC1, channel_number, 1, ADC_SampleTime_15Cycles);
 	ADC_SoftwareStartConv(ADC1);
 	while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET) {;}
@@ -179,13 +175,11 @@ int16_t getValue_adc(uint8_t channel_number){
 	return adc_val;
 }
 
-int16_t *getallValues_ADC(int16_t *data){
-	int16_t adc_val;
+void getallValues_ADC(){
 	int i;
 	for (i=0;i<5; i++){
-		data[i] = getValue_adc(channellist[i]);
+		SS_test.raw[i] = getValue_adc(channellist[i]);
 	}
-	return (data);
 }
 
 void test2(){
@@ -194,14 +188,14 @@ void test2(){
 	config_ADC();
 
 	while(1){
-		int16_t *data;
+		//uint16_t *data;
 		char p[10];
-		getallValues_ADC(data);
+		getallValues_ADC();
 		transmit_USART("ADC Values: \r");
 		int i;
 		for (i=0; i<5; i++){
-			int16_t temp = 0;
-			temp = data[i];
+			uint16_t temp = 0;
+			temp = SS_test.raw[i];
 			USART_InttoASC(temp, p);
 			transmit_USART(p);
 			Delay(1194303);

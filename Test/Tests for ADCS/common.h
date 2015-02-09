@@ -1,5 +1,5 @@
-#ifndef COMM_H
-#define COMM_H
+#ifndef COMMON_H
+#define COMMON_H
 
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
@@ -31,5 +31,11 @@
 #define channel15 ADC_Channel_15 //Channel corresponding to Pin PC5
 #define channel8  ADC_Channel_8  //Channel corresponding to Pin PB0
 #define channel9  ADC_Channel_9  //Channel corresponding to Pin PB1
+
+typedef struct ssraw{
+	uint16_t *raw;
+}ssraw_TypeDef;
+
+ssraw_TypeDef SS_test;
 
 #endif

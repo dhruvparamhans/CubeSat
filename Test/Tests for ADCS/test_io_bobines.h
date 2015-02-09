@@ -12,6 +12,8 @@ void set(GPIO_TypeDef* GPIO_x, uint16_t pin_number); //Setting up a given port  
 
 void reset(GPIO_TypeDef* GPIO_x, uint16_t pin_number); //Resetting a port	PORT = 0
 
+void configLEDS(void); //Configuring pins
+
 void blink(void); //Blinking the leds for the test
 
 void test1(void); //Function for testing the blinking
