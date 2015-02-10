@@ -1,5 +1,5 @@
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef COMM_H
+#define COMM_H
 
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
@@ -32,40 +32,48 @@
 #define channel8  ADC_Channel_8  //Channel corresponding to Pin PB0
 #define channel9  ADC_Channel_9  //Channel corresponding to Pin PB1
 
-//The Struct for the raw sun sensor data
-struct ssraw{
-	uint16_t *raw;
+
+///Structure for storing GPS data
+struct gps_reading{
+    ///Position data
+    float x, y, z;
+    ///Velocity data
+    float v_x, v_y, v_z;
+    ///Latitude Longitude Altitude
+    float lat, lon, alt;
 };
 
-//Struct for the calculated sun vector
-struct ssvect{
-	uint16_t *vect;
+///Structure for storing raw magnetometer data
+struct mag_sensor{
+    float mag_raw_x, mag_raw_y, mag_raw_z;
+    float temp;
 };
 
-//struct for the calculated mag vector
-struct magvect{
-	uint16_t raw_Bx;
-	uint16_t raw_By;
-	uint16_t raw_Bz;
+///Structure for storing magnetometer data after calibration
+struct mag_vector{
+    float mag_vec_x;
+    float mag_vec_y;
+    float mag_vec_z;
 };
 
-//struct for the PWM
-struct pwm_r{
-	uint16_t PWM_x;
-	uint16_t PWM_y;
-	uint16_t PWM_z;
-
-	uint8_t x_dir;
-	uint8_t y_dir;
-	uint8_t z_dir;
+///Structure for storing sun sensor data
+struct sun_sensor{
+    ///Raw data from the sun sensors
+    uint16_t *sun_raw;
 };
 
-struct state{
-	struct pwm_r PWM;
-	struct magvect mag_field;
-	struct ssvect sun_vector;
+///Sun-vector after correcting for albedo
+struct sun_vector{
+    float sun_vector_x;
+    float sun_vector_y;
+    float sun_vector_z;
 };
 
-struct state Current_state;
+struct State{
+    struct gps_reading gps;
+    struct mag_vector mag;
+    struct sun_vector sun;
+};
 
-#endif
+struct sun_sensor sun_reading_raw; 
+#endif 

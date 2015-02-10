@@ -2,8 +2,6 @@
 #define TESTOUT_H
 
 #include "common.h"
-#include <errno.h>
-#include <stdio.h>
 
 void initialiserUSART(void);  // Configuring the USART structure
 

@@ -7,7 +7,11 @@
 #ifndef ADC_H
 #define ADC_H
 
-void ADC_Setup(void);
-uint16_t ADC_GetValue(void);
+#include "common.h"
+
+void config_ADC(void);
+uint16_t getValue_adc(uint8_t channel_number);
+void getallValues_adc();
+
 
 #endif //ADC_H

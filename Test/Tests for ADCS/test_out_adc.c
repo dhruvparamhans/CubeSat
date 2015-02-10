@@ -188,7 +188,6 @@ void test2(){
 	config_ADC();
 
 	while(1){
-		//uint16_t *data;
 		char p[10];
 		getallValues_ADC();
 		transmit_USART("ADC Values: \r");

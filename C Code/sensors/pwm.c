@@ -5,7 +5,6 @@
 */
 
 #include "pwm.h"
-#include <stdio.h>
 void configure_pont()
 {
 }
@@ -22,11 +21,5 @@ void reset_pwm()
     pwm_val.i_dir_x = 0;
     pwm_val.i_dir_y = 0;
     pwm_val.i_dir_z = 0;
-}
-
-int main(void)
-{
-    printf("pwm_val.i_x");
-    return 0;
 }
 
