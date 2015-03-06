@@ -64,6 +64,7 @@ struct state{
 	struct pwm_r PWM;
 	struct magvect mag_field;
 	struct ssvect sun_vector;
+	struct ssraw sun_raw;
 };
 
 struct state Current_state;
