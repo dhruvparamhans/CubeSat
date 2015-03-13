@@ -51,9 +51,9 @@ struct magvect{
 
 //struct for the PWM
 struct pwm_r{
-	uint16_t PWM_x;
-	uint16_t PWM_y;
-	uint16_t PWM_z;
+	uint16_t PWM_x; //F1
+	uint16_t PWM_y; //F2
+	uint16_t PWM_z; //F3
 
 	uint8_t x_dir;
 	uint8_t y_dir;
