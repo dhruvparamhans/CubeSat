@@ -80,7 +80,6 @@ IGRF -> att_con;
 orbito -> IGRF;
 
 
-
 comm -> att_det;
 
 att_det -> att_con;
