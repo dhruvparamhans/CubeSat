@@ -15,11 +15,6 @@ subgraph cluster_Orbitographie{
 orbito [label = "Orbitographie"];
 }
 
-subgraph cluster_RTC{
-
-rtc [label = "RTC"];
-}
-
 
 subgraph cluster_softmana{
 
@@ -27,9 +22,6 @@ soft_man [label = "Software Management"];
 }
 
 
-subgraph cluster_GPS{
-GPS;
-}
 
 subgraph cluster_data{
 label = "Data";
@@ -66,7 +58,6 @@ mag_coils [label = "Magnetic Coils"];
 
 sun_sensor -> sun_vector;
 
-GPS -> orbito;
 
 albedo -> sun_vector; 
 
@@ -88,7 +79,7 @@ IGRF -> att_con;
 
 orbito -> IGRF;
 
-comm -> GPS;
+
 
 comm -> att_det;
 
@@ -99,10 +90,6 @@ comm -> soft_man;
 soft_man -> att_det;
 
 soft_man -> att_con;
-
-rtc -> orbito;
-
-comm -> rtc;
 
 orbito -> albedo;
 
