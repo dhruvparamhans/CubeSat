@@ -1,0 +1,43 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{polytechnique}[2014/21/07 Package delivrant une mise en page harmonisee a destination des eleves de l'Ecole polytechnique.]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Packages requis
+\RequirePackage{ifthen}%Pour la structure conditionnelle
+\RequirePackage{fancyhdr}%Pour les en-tetes - pieds de page
+\RequirePackage{titling}%Pour la redefinition de \maketitle
+\RequirePackage{graphicx}%Pour les logos inseres
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%En têtes - pieds de page
+\fancyhf{}
+\cfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\ifthenelse{\lengthtest{\footskip<1.3cm}}{\setlength{\footskip}{1.3cm}}{}%Augmente la taille de la separation entre le texte et le pied si celle-ci est trop petite
+
+\fancyfoot[RO,LE]{\raisebox{0.3cm}\thepage}%Le raisebox est là pour mettre le numero de page au niveau du milieu vertical du logo
+\fancyfoot[RE,LO]{\includegraphics[height=1cm]{logohori}}
+\rhead{}
+\lhead{}
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Commande \titrecourt
+\newcommand*{\titrecourt}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Redefinition de \maketitle
+\setlength{\droptitle}{-1in}%Supprime la marge supplementaire que met LaTeX entre le haut de la page et le debut du titre
+
+\pretitle{%Commandes qui s'appliqueront avant le titre
+	\begin{center}
+	\includegraphics[height=4cm]{logovert}\\\vspace{0.5cm}%Le logo vertical de l'école
+	\rule{\textwidth}{2pt}%Le premier filet horizontal
+	%\end{center}
+	\\\vspace{0.3cm}\Huge\sffamily%Met le titre en grand et en sans-serif
+}
+\posttitle{%Commandes qui s'appliqueront après le titre mais avant l'auteur
+	\\[-0.1cm]
+	\rule{\textwidth}{2pt}
+	\end{center}
+	\chead{\textsc{\ifthenelse{\equal{\titrecourt}{}}{\thetitle}{\titrecourt}}}%Définit l'en-tete vertical central comme le titre (ou titre court s'il existe) en petites minuscules
+}
+
+\preauthor{\noindent}%Supprime l'indentation par défaut pour que le nom d'auteur soit colle a gauche
+\postauthor{}
+
+\predate{\hspace*{\fill}}
+\postdate{}

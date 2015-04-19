@@ -1,0 +1,8 @@
+\contentsline {chapter}{\numberline {1}Introduction}{3}
+\contentsline {chapter}{\numberline {2}Architecture of the ADCS}{4}
+\contentsline {chapter}{\numberline {3}External interfaces}{9}
+\contentsline {chapter}{\numberline {4}Software Architecture}{10}
+\contentsline {section}{\numberline {4.1}Division of the software}{10}
+\contentsline {section}{\numberline {4.2}Structure of classes}{11}
+\contentsline {chapter}{\numberline {5}Data formats}{13}
+\contentsline {chapter}{\numberline {6}Testing}{14}
