@@ -4,6 +4,7 @@
 \usepackage{polytechnique,url}
 \usepackage{graphicx}
 \usepackage{pdfpages}
+\usepackage{multirow}
 
 \title{Specifications for the Attitude Control and Determination System-XCubeSat} 
 \author{Dhruv Sharma, Damien Seux, Quentin Lisack, Kevin Garanger}
@@ -17,6 +18,7 @@
 
 \tableofcontents
 \listoffigures
+\listoftables
 
 \chapter{Introduction}
 
@@ -67,8 +69,21 @@ Following is the complete plan for the ADCS:
 
 
 \chapter{Software Architecture} \thispagestyle{fancy}
+This is the heart of this document. We discuss here the architecture of the software, the various peripherals and the sensors mounted on the microprocessors, the various functions associated with them detailing every time the input, output and the configuration parameters for each of the peripherals. 
+
+We first begin by detailing how the software has been divided. Next we define the various classes that we have divided the software into. While the first division is an abstract division that we made to facilitate the development of the software, the structure of classes and their interdependance correspond to how the software will actually be implemented. 
+
+Once the abstract division and the structure of classes are defined we detail the correspondence of the various ports/ pins available on the microprocessor and the peripherals connected. Next, we define the functions corresponding to each of the divisions. Irrespective of their eventual use, all functions shall find themselves in one of three categories that we shall define in the section \textbf{Division of the software}. 
+
 
 \section{Division of the software} 
+
+\begin{figure}[!h]
+\centering 
+\includegraphics[width=10cm]{arch_layers.jpg}
+\caption{\textit{Division of the software in three layers each independent of the other}}
+\label{layers_arch_soft}
+\end{figure}
  
 The ADCS software is divided into the following layers 
 
@@ -80,14 +95,6 @@ The ADCS software is divided into the following layers
 \item 
 \textbf{Specialized Functions}: The specialized functions are the functions which implement the algorithms for determining and controlling the attitude of the satellite. These functions are high-level functions and require the data provided to them by the \textit{Driver} layer above to function. 
 \end{enumerate}
-
-\begin{figure}[!h]
-\centering 
-\includegraphics[width=10cm]{arch_layers.jpg}
-\caption{\textit{Division of the software in three layers each independent of the other}}
-\label{layers_arch_soft}
-\end{figure}
-
 
 \section{Structure of classes} 
 Once we have abstracted the software as being divided into layers depending on the kind of functions we will write for the software, we consider next the division of the software into dedicated classes. The class structure as envisaged for the ADCS is summarized in the graph below. The arrow head signifies that the a particular class gets a particular piece of data from the class where the arrow originates. 
@@ -126,27 +133,38 @@ Finally, this step also relates to reading the terrestrial magnetic field map an
 \end{enumerate}
 
 
-As mentioned earlier, the ADCS disposes the following list of peripherals: 
+\section{Definition of ports}
 
+In this section we define the various ports, what their functionalities are and to which of the peripherals they are connected. 
 
-\begin{itemize}
-\item 
-32 MB External Memory  
-\item 
-7(or 9) sun sensors 
-\item 
-Magnetometer
-\item 
-Gyrometer
-\item 
-H-Bridges to modulate power to the magneto-torquers 
-\item 
-A Serial interface with the On-Board Computer (\textit{Ordinateur de Bord} henceforth, ODB) 
-\end{itemize}
-
-Each of these peripherals need to be configured and their outputs need to be specified so that the algorithms used for the determining and controlling the attitude function optimally. 
-
-
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage{graphicx}
+\begin{table}[!h]
+\centering
+\resizebox{1.1\textwidth}{!}{%
+\begin{tabular}{cllllll}
+\hline
+\multicolumn{1}{|l|}{Peripheral} & \multicolumn{1}{l|}{Name of the port} & \multicolumn{1}{l|}{No. Port on MPU} & \multicolumn{1}{l|}{Logical State} & \multicolumn{1}{l|}{Alternate Function (AF)} & \multicolumn{1}{l|}{AF Details 1} & \multicolumn{1}{l|}{AF Details 2} \\ \hline
+\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \hline
+\multicolumn{1}{|c|}{\multirow{5}{*}{Sun Sensor}} & \multicolumn{1}{l|}{GS5} & \multicolumn{1}{l|}{PC0} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel10} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS4} & \multicolumn{1}{l|}{PC1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 11} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS3} & \multicolumn{1}{l|}{PC5} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 15} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS2} & \multicolumn{1}{l|}{PB0} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 8} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS1} & \multicolumn{1}{l|}{PB1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 9} \\ \hline
+\multicolumn{1}{l}{} &  &  &  &  &  &  \\ \hline
+\multicolumn{1}{|c|}{\multirow{6}{*}{PWM}} & \multicolumn{1}{l|}{F1} & \multicolumn{1}{l|}{PB14} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{TIM1} & \multicolumn{1}{l|}{Output Compare} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{R1} & \multicolumn{1}{l|}{PB13} & \multicolumn{1}{l|}{0 or 1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{PB12} & \multicolumn{1}{l|}{PB12} & \multicolumn{1}{l|}{0 or 1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{PB11} & \multicolumn{1}{l|}{PB11} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{Output Compare} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{PB10} & \multicolumn{1}{l|}{PB10} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{Output Compare} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{R3} & \multicolumn{1}{l|}{PA5} & \multicolumn{1}{l|}{0 or 1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \hline
+\multicolumn{1}{l}{} &  &  &  &  &  & 
+\end{tabular}
+}
+\caption{\textit{List of peripherals with their associated ports and alternate functions (AF)}}
+\label{port_list} 
+\end{table}
 
 \chapter{Data formats}\thispagestyle{fancy}
 
