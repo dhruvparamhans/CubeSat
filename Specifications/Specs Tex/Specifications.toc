@@ -5,6 +5,11 @@
 \contentsline {section}{\numberline {4.1}Division of the software}{11}
 \contentsline {section}{\numberline {4.2}Structure of classes}{12}
 \contentsline {section}{\numberline {4.3}Definition of ports}{13}
-\contentsline {section}{\numberline {4.4}List of Peripherals}{13}
+\contentsline {section}{\numberline {4.4}API Firmware}{14}
+\contentsline {subsection}{\numberline {4.4.1}PWM}{14}
+\contentsline {subsection}{\numberline {4.4.2}ADC}{14}
+\contentsline {subsection}{\numberline {4.4.3}USART}{14}
+\contentsline {section}{\numberline {4.5}Driver}{14}
+\contentsline {section}{\numberline {4.6}Specialized Functions}{14}
 \contentsline {chapter}{\numberline {5}Data formats}{15}
 \contentsline {chapter}{\numberline {6}Testing}{16}

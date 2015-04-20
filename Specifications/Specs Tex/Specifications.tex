@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{pdfpages}
 \usepackage{multirow}
-
+\usepackage{float}
 \title{Specifications for the Attitude Control and Determination System-XCubeSat} 
 \author{Dhruv Sharma, Damien Seux, Quentin Lisack, Kevin Garanger}
 
@@ -137,34 +137,49 @@ Finally, this step also relates to reading the terrestrial magnetic field map an
 
 In this section we define the various ports, what their functionalities are and to which of the peripherals they are connected. 
 
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
-% \usepackage{graphicx}
-\begin{table}[!h]
-\centering
-\resizebox{1.1\textwidth}{!}{%
-\begin{tabular}{cllllll}
+We also specify the alternate functions that need to be configured for each of the ports. These alternate functions could be Serial Communication (USART) for communicating with the ODB or an Analog to Digital Converter (ADC) for the sun-sensors. 
+
+\begin{table}[H]
+%\centering
+\resizebox{1.15\textwidth}{!}{%
+\begin{tabular}{ccccccc}
 \hline
-\multicolumn{1}{|l|}{Peripheral} & \multicolumn{1}{l|}{Name of the port} & \multicolumn{1}{l|}{No. Port on MPU} & \multicolumn{1}{l|}{Logical State} & \multicolumn{1}{l|}{Alternate Function (AF)} & \multicolumn{1}{l|}{AF Details 1} & \multicolumn{1}{l|}{AF Details 2} \\ \hline
-\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \hline
-\multicolumn{1}{|c|}{\multirow{5}{*}{Sun Sensor}} & \multicolumn{1}{l|}{GS5} & \multicolumn{1}{l|}{PC0} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel10} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS4} & \multicolumn{1}{l|}{PC1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 11} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS3} & \multicolumn{1}{l|}{PC5} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 15} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS2} & \multicolumn{1}{l|}{PB0} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 8} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{GS1} & \multicolumn{1}{l|}{PB1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{ADC} & \multicolumn{1}{l|}{ADC\_Resolution\_8b} & \multicolumn{1}{l|}{Channel 9} \\ \hline
-\multicolumn{1}{l}{} &  &  &  &  &  &  \\ \hline
-\multicolumn{1}{|c|}{\multirow{6}{*}{PWM}} & \multicolumn{1}{l|}{F1} & \multicolumn{1}{l|}{PB14} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{TIM1} & \multicolumn{1}{l|}{Output Compare} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{R1} & \multicolumn{1}{l|}{PB13} & \multicolumn{1}{l|}{0 or 1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{PB12} & \multicolumn{1}{l|}{PB12} & \multicolumn{1}{l|}{0 or 1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{PB11} & \multicolumn{1}{l|}{PB11} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{Output Compare} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{PB10} & \multicolumn{1}{l|}{PB10} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{TIM2} & \multicolumn{1}{l|}{Output Compare} & \multicolumn{1}{l|}{} \\ \cline{2-7} 
-\multicolumn{1}{|c|}{} & \multicolumn{1}{l|}{R3} & \multicolumn{1}{l|}{PA5} & \multicolumn{1}{l|}{0 or 1} & \multicolumn{1}{l|}{N/A} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \hline
-\multicolumn{1}{l}{} &  &  &  &  &  & 
+\multicolumn{1}{|c|}{Peripheral} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Name of\\   the port\end{tabular}} & \multicolumn{1}{c|}{Port on MPU} & \multicolumn{1}{c|}{Logical State} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Alternate\\ Function(AF)\end{tabular}} & \multicolumn{1}{c|}{AF Details 1} & \multicolumn{1}{c|}{AF Details 2} \\ \hline
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \\ \hline
+\multicolumn{1}{|c|}{\multirow{5}{*}{\begin{tabular}[c]{@{}c@{}}Sun \\ Sensor\end{tabular}}} & \multicolumn{1}{c|}{GS5} & \multicolumn{1}{c|}{PC0} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{ADC} & \multicolumn{1}{c|}{ADC\_Resolution\_8b} & \multicolumn{1}{c|}{Channel10} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GS4} & \multicolumn{1}{c|}{PC1} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{ADC} & \multicolumn{1}{c|}{ADC\_Resolution\_8b} & \multicolumn{1}{c|}{Channel 11} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GS3} & \multicolumn{1}{c|}{PC5} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{ADC} & \multicolumn{1}{c|}{ADC\_Resolution\_8b} & \multicolumn{1}{c|}{Channel 15} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GS2} & \multicolumn{1}{c|}{PB0} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{ADC} & \multicolumn{1}{c|}{ADC\_Resolution\_8b} & \multicolumn{1}{c|}{Channel 8} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GS1} & \multicolumn{1}{c|}{PB1} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{ADC} & \multicolumn{1}{c|}{ADC\_Resolution\_8b} & \multicolumn{1}{c|}{Channel 9} \\ \hline
+ &  &  &  &  &  &  \\ \hline
+\multicolumn{1}{|c|}{\multirow{6}{*}{PWM}} & \multicolumn{1}{c|}{F1} & \multicolumn{1}{c|}{PB14} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{TIM1} & \multicolumn{1}{c|}{Output Compare} & \multicolumn{1}{c|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{R1} & \multicolumn{1}{c|}{PB13} & \multicolumn{1}{c|}{0 or 1} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{F2} & \multicolumn{1}{c|}{PB12} & \multicolumn{1}{c|}{0 or 1} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{R2} & \multicolumn{1}{c|}{PB11} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{TIM2} & \multicolumn{1}{c|}{Output Compare} & \multicolumn{1}{c|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{F3} & \multicolumn{1}{c|}{PB10} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{TIM2} & \multicolumn{1}{c|}{Output Compare} & \multicolumn{1}{c|}{} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{R3} & \multicolumn{1}{c|}{PA5} & \multicolumn{1}{c|}{0 or 1} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \\ \hline
+ &  &  &  &  &  &  \\ \hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Comm\\ ODB\end{tabular}}} & \multicolumn{1}{c|}{TX\_ADCS} & \multicolumn{1}{c|}{PA10} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{USART1\_RX} & \multicolumn{1}{c|}{Baud Rate} & \multicolumn{1}{c|}{Bit size} \\ \cline{2-7} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{RX\_ADCS} & \multicolumn{1}{c|}{PA9} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{USART1\_TX} & \multicolumn{1}{c|}{Baud Rate} & \multicolumn{1}{c|}{Bit size} \\ \hline
+ &  &  &  &  &  &  \\ \hline
+\multicolumn{1}{|c|}{MISC} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}On/Off\\   Pont H\end{tabular}} & \multicolumn{1}{c|}{PB14} & \multicolumn{1}{c|}{0 or 1} & \multicolumn{1}{c|}{N/A} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \\ \hline
 \end{tabular}
 }
-\caption{\textit{List of peripherals with their associated ports and alternate functions (AF)}}
-\label{port_list} 
+\caption{List of peripherals with alternate functions and other configurable parameters}
+\label{my-label}
 \end{table}
+
+\section{API Firmware} 
+
+This section details all the functions concerning the initialization and configuration of the peripherals. 
+
+\subsection{PWM} 
+\subsection{ADC}
+\subsection{USART} 
+
+\section{Driver} 
+
+\section{Specialized Functions} 
 
 \chapter{Data formats}\thispagestyle{fancy}
 
