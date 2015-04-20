@@ -6,6 +6,8 @@
 \usepackage{pdfpages}
 \usepackage{multirow}
 \usepackage{float}
+\usepackage{titlesec}
+\usepackage{subfig}
 \title{Specifications for the Attitude Control and Determination System-XCubeSat} 
 \author{Dhruv Sharma, Damien Seux, Quentin Lisack, Kevin Garanger}
 
@@ -13,6 +15,8 @@
 
 \renewcommand{\titrecourt}{Specifications ADCS}
 \setcounter{secnumdepth}{5}
+
+\captionsetup{belowskip=12pt, aboveskip=4pt}
 \begin{document}
 \maketitle
 
@@ -66,8 +70,7 @@ Following is the complete plan for the ADCS:
 
 \chapter{External interfaces} \thispagestyle{fancy}
 
-
-
+Page 49-50 in the specifications for ODB 
 \chapter{Software Architecture} \thispagestyle{fancy}
 This is the heart of this document. We discuss here the architecture of the software, the various peripherals and the sensors mounted on the microprocessors, the various functions associated with them detailing every time the input, output and the configuration parameters for each of the peripherals. 
 
@@ -166,15 +169,216 @@ We also specify the alternate functions that need to be configured for each of t
 \end{tabular}
 }
 \caption{List of peripherals with alternate functions and other configurable parameters}
-\label{my-label}
+\label{list_all_periph}
 \end{table}
 
 \section{API Firmware} 
 
 This section details all the functions concerning the initialization and configuration of the peripherals. 
 
+Some generalities are in order. The initialization of any port goes through the following steps:
+
+\begin{enumerate}
+\item 
+We first enable the peripheral clock corresponding to the sensor in question.
+\item 
+We then enable the GPIO clock corresponding to the sensor
+\item 
+We then enable the alternate function for the GPIO if required 
+\item 
+We then configure the GPIO for use as an alternate function 
+\item 
+We initialize the GPIO using its init function
+\item 
+Configure the functionalities for the alternate function 
+\item 
+Finally initialize the alternate function using the corresponding init function. 
+\end{enumerate}
+
+One of the most important steps in the initialization of any port is to initialize the clock connected to the port. Each port is connected to one of two buses. We resume the various clocks connected to the various ports to serve as a reference to the reader. 
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage{graphicx}
+\begin{table}[H]
+\centering
+\resizebox{0.5\textwidth}{!}{%
+\begin{tabular}{ccc}
+\hline
+\multicolumn{1}{|c|}{Clock} & \multicolumn{1}{c|}{Peripheral} & \multicolumn{1}{c|}{RCC Peripheral} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\ \hline
+\multicolumn{1}{|c|}{\multirow{13}{*}{APB1}} & \multicolumn{1}{c|}{TIM2} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM2} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM3} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM3} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM4} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM4} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM5} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM5} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM6} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM6} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM7} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM7} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM12} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM12} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM13} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM13} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM14} & \multicolumn{1}{c|}{RCC\_APB1Periph\_TIM14} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{SPI2} & \multicolumn{1}{c|}{RCC\_APB1Periph\_SPI2} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{SPI3} & \multicolumn{1}{c|}{RCC\_APB1Periph\_SPI3} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{USART2} & \multicolumn{1}{c|}{RCC\_APB1Periph\_USART2} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{USART3} & \multicolumn{1}{c|}{RCC\_APB1Periph\_USART3} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\ \hline
+\multicolumn{1}{|c|}{\multirow{11}{*}{APB2}} & \multicolumn{1}{c|}{TIM1} & \multicolumn{1}{c|}{RCC\_APB2Periph\_TIM1} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM8} & \multicolumn{1}{c|}{RCC\_APB2Periph\_TIM8} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{USART1} & \multicolumn{1}{c|}{RCC\_APB2Periph\_USART1} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{USART6} & \multicolumn{1}{c|}{RCC\_APB2Periph\_USART6} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{ADC} & \multicolumn{1}{c|}{RCC\_APB2Periph\_ADC} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{ADC1} & \multicolumn{1}{c|}{RCC\_APB2Periph\_ADC1} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{ADC2} & \multicolumn{1}{c|}{RCC\_APB2Periph\_ADC2} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{ADC3} & \multicolumn{1}{c|}{RCC\_APB2Periph\_ADC3} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM9} & \multicolumn{1}{c|}{RCC\_APB2Periph\_TIM9} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM10} & \multicolumn{1}{c|}{RCC\_APB2Periph\_TIM10} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{TIM11} & \multicolumn{1}{c|}{RCC\_APB2Periph\_TIM11} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\ \hline
+\multicolumn{1}{|c|}{\multirow{8}{*}{AHB1}} & \multicolumn{1}{c|}{GPIOA} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOA} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GPIOB} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOB} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GPIOC} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOC} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GPIOD} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOD} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GPIOE} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOE} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GPIOF} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOF} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GPIOG} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOG} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{GPIOH} & \multicolumn{1}{c|}{RCC\_AHB1\_GPIOH} \\ \hline
+\end{tabular}
+}
+\caption{Clocks connected to each of the peripherals}
+\label{clock_periph}
+\end{table}
+The configuration and initialization of all the functionalities presented below will follow the list of steps detailed. 
+
 \subsection{PWM} 
+
+\subsubsection{Initialization}
+
+The following functions will be used for initialization purposes 
+
+\begin{enumerate}
+	\item 
+		\textbf{Setting on the H-Bridge}
+		
+		Syntaxe: void setPWMON()
+		
+		This function switches on the H-bridge which in its turn control the coils. 
+
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+		\begin{table}[H]
+			\centering
+			\resizebox{0.6\textwidth}{!}{%
+			\begin{tabular}{|c|c|c|}
+				\hline
+				Name of the port & Port on MPU & Logical State \\ \hline
+				ON/OFF PONT H & PB14 & 1 \\ \hline
+			\end{tabular}
+	}
+			\caption{PWM-ON}
+			\label{on_pwm}
+		\end{table}
+\item 
+	\textbf{Configuring the ports which determine the current direction}
+	
+	Syntaxe: void configDirs()
+	
+	\begin{table}[H]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+Name of the port & Port on MPU & \multicolumn{1}{l|}{} \\ \hline
+R1 & PB13 & \multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}To be configured as \\ General Purpose\\ Input/Output\end{tabular}} \\ \cline{1-2}
+F2 & PB12 &  \\ \cline{1-2}
+R3 & PA5 &  \\ \hline
+\end{tabular}
+}
+\caption{Configure the ports for the direction}
+\label{config_dirs}
+\end{table}
+	
+\item 
+	\textbf{Configure the ports which supply power}
+	
+	Syntaxe: void configTorquers()
+	
+	This function configures the ports connected to the coils to be used as Timers. 
+	
+	\begin{table}[H]
+		\centering
+		\resizebox{0.5\textwidth}{!}{%
+		\begin{tabular}{|c|c|c|}
+			\hline
+			Name of the port & Port on MPU & \multicolumn{1}{l|}{} \\ \hline
+			F1 & PB14 & TIM1 \\ \hline
+			R2 & PB11 & \multirow{2}{*}{TIM2} \\ \cline{1-2}
+			F3 & PB10 &  \\ \hline
+\end{tabular}
+}
+\caption{Configure the ports as Timers}
+\label{config_torquers}
+\end{table}
+
+\item 
+	\textbf{Configure TIM1}
+	
+	Syntaxe: void configTIM1(uint32\_t PWM\_freq)
+	
+	Once the ports have been configured to be used as timers, we need to configure the timers to function at the frequency we require. The TIM1 is connected to the AHB1 Bus which has a clock frequency of 168MHz. Thus one first prescales the timer to be used as 
+
+\item 
+	\textbf{Configure TIM2}
+	
+	Syntaxe: void configTIM2(uint32\_t PWM\_freq)
+	
+\item 
+	\textbf{Configure PWM1 }
+	
+	Syntaxe: void configPWM1(uint32\_t duty\_cycle)
+
+\item 
+	\textbf{Configure PWM2 }
+	
+	Syntaxe: void configPWM2(uint32\_t duty\_cycle)
+	
+
+\item 
+	\textbf{Configure PWM3 }
+	
+	Syntaxe: void configPWM3(uint32\_t duty\_cycle)
+\end{enumerate}
+
+\subsubsection{Termination}
+
+\paragraph{Configuring the ports}
+
+We use the following ports to be used for providing power to the magnetic coils using PWM. The ports: \textbf{PB14, PB11, PB10} will be configured to be used as timers, whereas \textbf{PB13, PB12} and \textbf{PA5} will be used as general input/output ports. The last three ports will be used to determine the direction of the current in the coils. 
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Peripheral & \begin{tabular}[c]{@{}c@{}}Name of\\   the port\end{tabular} & Port on MPU & Logical State & \begin{tabular}[c]{@{}c@{}}Alternate\\ Function(AF)\end{tabular} & AF Details 1 & AF Details 2 \\ \hline
+\multirow{6}{*}{PWM} & F1 & PB14 & N/A & TIM1 & Output Compare &  \\ \cline{2-7} 
+ & R1 & PB13 & 0 or 1 & N/A &  &  \\ \cline{2-7} 
+ & F2 & PB12 & 0 or 1 & N/A &  &  \\ \cline{2-7} 
+ & R2 & PB11 & N/A & TIM2 & Output Compare &  \\ \cline{2-7} 
+ & F3 & PB10 & N/A & TIM2 & Output Compare &  \\ \cline{2-7} 
+ & R3 & PA5 & 0 or 1 & N/A &  &  \\ \hline
+\end{tabular}
+}
+\caption{List of PWM Ports} 
+\label{list_pwm}
+\end{table}
+
+
+
+
+
+
 \subsection{ADC}
+
+
 \subsection{USART} 
 
 \section{Driver} 
@@ -184,6 +388,8 @@ This section details all the functions concerning the initialization and configu
 \chapter{Data formats}\thispagestyle{fancy}
 
 \chapter{Testing}\thispagestyle{fancy} 
+
+\chapter{Referentials}\thispagestyle{fancy} 
 
 
 \end{document}
