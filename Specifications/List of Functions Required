@@ -1,0 +1,42 @@
+Functions for each of the Peripherals 
+
+	1. PWM
+		a) setPontHOn : Enable the port for the H-Bridge
+		b) setPontHOff :  Disable the port for the H-Bridge 
+		c) setTIM1On :  Configure Timer 1 to be used as PWM 
+		d) setTIM2On :  Configure Timer 2 to be used as PWM 
+		e) setTIM8On :  Configure Timer 8 to be used as PWM 
+		f) setDir1 :  Set the direction for the first coil 
+		g) setDir2 :  Set the direction for the second coil 
+		h) setDir3 :  Set the direction for the third coil
+		i) configPWM1 :  configure the PWM 1 with the correct duty cycle 
+		j) configPWM2 :  configure the PWM 2 with the correct duty cycle 
+		k) configPWM3 :  configure the PWM 3 with the correct duty cycle 
+		l) setTIM1Off: Disable Timer 1 
+		m) setTIM2Off: Disable Timer 2 
+		n) setTIM8Off: Disable Time 8 
+
+
+QUESTION: Do I make separate functions for enabling each of the coils or just one function that does it? 
+
+	2.  USART 
+		a) setUSART1On: Enable the USART1 
+		b) setUSART2Off: Disable the USART1 
+
+	3. ADC 
+		a) convIntToASC :  Converts the integer data to a string to send to 
+
+
+
+
+To do for ADCS 
+
+	1. Understand the structure of the objets linked to each of the peripherals 
+	2. Add the object ADC to the structure 
+	3. Add the object TIMER to the structure 
+	4. Add the object PWM to the structure 
+	5. Make the dummy threads (add the necessary files) 
+	6. Make dummy objects and write random stuff in them to see how everything is working 
+
+
+My test case would be to run the ADC Code that I already wrote and make a thread called testThread. 
