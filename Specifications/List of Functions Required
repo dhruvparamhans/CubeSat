@@ -40,3 +40,10 @@ To do for ADCS
 
 
 My test case would be to run the ADC Code that I already wrote and make a thread called testThread. 
+
+
+Configuration Settings for the ADC  (To be added to the Spec Sheet ADC Enable functions )
+
+1. Resolution for the ADC = 12bits 
+2. Data Alignment = Data_Align_Right 
+3. Number of Conversion = 9; 

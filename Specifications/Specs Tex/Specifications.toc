@@ -1,6 +1,7 @@
 \contentsline {chapter}{\numberline {1}Introduction}{4}
 \contentsline {chapter}{\numberline {2}Architecture of the ADCS}{5}
-\contentsline {chapter}{\numberline {3}External interfaces}{10}
+\contentsline {chapter}{\numberline {3}Protocol for communication with ODB}{10}
+\contentsline {section}{\numberline {3.1}Commands sent by the ODB}{10}
 \contentsline {chapter}{\numberline {4}Software Architecture}{11}
 \contentsline {section}{\numberline {4.1}Division of the software}{11}
 \contentsline {section}{\numberline {4.2}Structure of classes}{12}

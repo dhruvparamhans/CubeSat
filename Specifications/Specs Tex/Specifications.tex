@@ -68,9 +68,42 @@ Following is the complete plan for the ADCS:
 
 \includepdf[pages={-},angle=90]{QB50_ADCS_ST.pdf}
 
-\chapter{External interfaces} \thispagestyle{fancy}
+\chapter{Protocol for communication with ODB} \thispagestyle{fancy}
 
-Page 49-50 in the specifications for ODB 
+In this section, we define the protocol for communication between the ODB and the ADCS. The plan of the section is as follows. We first define the commands that the ODB will send to the ADCS and what these commands mean. Next we shall explain what happens in each of the threads of the ADCS. Finally we define how the ADCS will respond to each of the commands sent by the ODB. 
+
+\section{Commands sent by the ODB} 
+
+The commands sent by the ODB are as follows: 
+
+	\begin{itemize}
+		\item 
+		\textbf{Ping}: The ODB sends a message to the ADCS to verify whether the ADCS is functioning or not
+		\item 
+		\textbf{Attitude Determination Mode}: ADCS moves into the attitude determination mode 
+		\item 
+		\textbf{Attitude Control Mode}: ADCS passes into attitude control mode 
+		\item 
+		\textbf{Raw Magnetic Field Values}: The ODB asks for the current raw magnetic field values 
+		\item 
+		\textbf{Raw Gyrometer Values}: The ODB asks for the current raw gyrometer values 
+		\item 
+		\textbf{Raw Sun Sensor Values}: The ODB asks for the current raw sun sensor values 
+		\item 
+		\textbf{True Magnetic Field Values}: The ODB asks for the current true magnetic field values 
+		\item
+		\textbf{True gyrometer values}: The ODB asks for the current true gyrometer values
+		\item 
+		\textbf{True sun vector values}: The ODB asks for the sun vector values 
+		\item 
+		\textbf{Set time}: The ODB sends a command to set the time for the ADCS. Serves to synchronize the time between the ADCS
+							and the ODB 
+		\item 
+		\textbf{Read time}: The ODB calls for the current time of the ADCS. 
+		\item 
+		\textbf{STOP}: The ODB asks the ADCS to stop all its processes. 
+	\end{itemize}
+ 
 \chapter{Software Architecture} \thispagestyle{fancy}
 This is the heart of this document. We discuss here the architecture of the software, the various peripherals and the sensors mounted on the microprocessors, the various functions associated with them detailing every time the input, output and the configuration parameters for each of the peripherals. 
 
